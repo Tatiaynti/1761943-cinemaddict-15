@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Татьяна Мохначева](https://up.htmlacademy.ru/ecmascript/15/user/1761943).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Попов](https://htmlacademy.ru/profile/joker).
 
 ---
 
