@@ -4,13 +4,15 @@ import {menuListTemplate} from './view/menu.js';
 import {filmListTemplate} from './view/film-list.js';
 import {filmListExtraTemplate} from './view/film-list-extra.js';
 import {showMoreButtonTemplate} from './view/show-more-button.js';
-import {films} from './mock/film.js';
-import { statisticsTemplate } from './view/stats.js';
+import {statisticsTemplate} from './view/stats.js';
+import {generateFilms} from './mock/film.js';
 // import {filmDetailsTemplate} from './view/film-details.js';
-// import { generatePopup } from './mock/popup.js';
 
+const FILM_CARDS_COUNT = 18;
 const EXTRA_CARDS = 2;
 const FILM_CARDS_PER_STEP = 5;
+
+const allFilms = generateFilms(FILM_CARDS_COUNT);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -22,13 +24,13 @@ const footerElement = document.querySelector('.footer');
 
 const renderFilmCards = (cardsCount, container) => {
   for (let i = 0; i < cardsCount; i++) {
-    render(container, filmCardTemplate(films[i]), 'beforeend');
+    render(container, filmCardTemplate(allFilms[i]), 'beforeend');
   }
 };
-const minFilms = Math.min(films.length, FILM_CARDS_PER_STEP);
+const minFilms = Math.min(allFilms.length, FILM_CARDS_PER_STEP);
 
 render(headerElement, profileTemplate(), 'beforeend');
-render(mainElement, menuListTemplate(), 'beforeend');
+render(mainElement, menuListTemplate(allFilms), 'beforeend');
 render(mainElement, filmListTemplate(), 'beforeend');
 
 const filmsContainer = mainElement.querySelector('.films');
@@ -40,7 +42,7 @@ renderFilmCards(minFilms, filmListContainer);
 
 const filmListElement = mainElement.querySelector('.films-list');
 
-if (films.length > FILM_CARDS_PER_STEP) {
+if (allFilms.length > FILM_CARDS_PER_STEP) {
   let renderedFilmCount = FILM_CARDS_PER_STEP;
 
   render(filmListElement, showMoreButtonTemplate(), 'beforeend');
@@ -48,13 +50,13 @@ if (films.length > FILM_CARDS_PER_STEP) {
   const showMoreButton = filmListElement.querySelector('.films-list__show-more');
   showMoreButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    films
+    allFilms
       .slice(renderedFilmCount, renderedFilmCount + FILM_CARDS_PER_STEP)
       .forEach((film) => render(filmListContainer, filmCardTemplate(film), 'beforeend'));
 
     renderedFilmCount += FILM_CARDS_PER_STEP;
 
-    if(renderedFilmCount >= films.length) {
+    if(renderedFilmCount >= allFilms.length) {
       showMoreButton.remove();
     }
   });
@@ -69,6 +71,4 @@ filmExtraListContainer.forEach((item) => {
 
 render(footerElement, statisticsTemplate(), 'afterend');
 
-// const popup = generatePopup();
-
-// render(footerElement, filmDetailsTemplate(popup), 'afterend');
+// render(footerElement, filmDetailsTemplate(allFilms[0]), 'afterend');

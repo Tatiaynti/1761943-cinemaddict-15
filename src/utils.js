@@ -1,5 +1,3 @@
-const FILM_CARDS_COUNT = 18;
-
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -15,4 +13,4 @@ const getRandomFloat = (min, max, decimalPoints = 1) => {
   return undefined;
 };
 
-export {FILM_CARDS_COUNT, getRandomInteger, getRandomFloat};
+export {getRandomInteger, getRandomFloat};

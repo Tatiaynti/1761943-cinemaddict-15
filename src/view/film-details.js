@@ -18,7 +18,7 @@ const commentsTemplate = (comments) => (
 );
 
 const filmDetailsTemplate = (popup) => {
-  const {fullPoster, title, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched, comments} = popup;
+  const {poster, title, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched, comments} = popup;
   const favoriteClassName = isFavorite
     ? 'film-details__control-button--active'
     : '';
@@ -37,7 +37,7 @@ const filmDetailsTemplate = (popup) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${fullPoster}" alt="">
+          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
           <p class="film-details__age">${ageRating}</p>
         </div>
         <div class="film-details__info">
@@ -69,7 +69,7 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${runtime}</td>
+              <td class="film-details__cell">${runtime.runtimeHours}h ${runtime.runtimeMins}m</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
@@ -78,7 +78,7 @@ const filmDetailsTemplate = (popup) => {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genres}</span>
+                <span class="film-details__genre">${genres.join(', ')}</span>
                 </td>
             </tr>
           </table>

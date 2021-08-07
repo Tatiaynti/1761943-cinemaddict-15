@@ -1,5 +1,5 @@
 const filmCardTemplate = (film) => {
-  const {title, rating, releaseYear, runtime, genre, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
+  const {title, rating, releaseYear, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
   const favoriteClassName = isFavorite
     ? 'film-card__controls-item--active'
     : '';
@@ -16,8 +16,8 @@ const filmCardTemplate = (film) => {
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
       <span class="film-card__year">${releaseYear}</span>
-      <span class="film-card__duration">${runtime}</span>
-      <span class="film-card__genre">${genre}</span>
+      <span class="film-card__duration">${runtime.runtimeHours}h ${runtime.runtimeMins}m</span>
+      <span class="film-card__genre">${genres[0]}</span>
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${description}</p>
