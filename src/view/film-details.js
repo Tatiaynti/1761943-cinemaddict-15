@@ -1,3 +1,5 @@
+import { createElement } from '../utils.js';
+
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
     const {text, emoji, author, date} = comment;
@@ -65,7 +67,7 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release}</td>
+              <td class="film-details__cell">${release.format('DD MMMM YYYY')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -131,4 +133,25 @@ const filmDetailsTemplate = (popup) => {
 };
 
 
-export {filmDetailsTemplate};
+export default class FilmDetails {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return filmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
