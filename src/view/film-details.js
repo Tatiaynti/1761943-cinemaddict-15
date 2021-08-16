@@ -1,4 +1,5 @@
-import { createElement } from '../utils.js';
+import { createElement } from '../utils-common.js';
+import { changeDateFormatToFull } from './utils-for-view.js';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
@@ -67,7 +68,7 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release.format('DD MMMM YYYY')}</td>
+              <td class="film-details__cell">${changeDateFormatToFull(release)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

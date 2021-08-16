@@ -1,4 +1,17 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils-common.js';
+
+const filmFiltersMap = {
+  favorites: (films) => films.filter((film) => film.isFavorite).length,
+  history: (films) => films.filter((film) => film.isWatched).length,
+  inWatchlist: (films) => films.filter((film) => film.isInWatchlist).length,
+};
+
+export const generateFilter = (films) => Object.entries(filmFiltersMap).map(
+  ([filterName, countFilms]) => ({
+    name: filterName,
+    count: countFilms(films),
+  }),
+);
 
 const menuListTemplate = (filters) => (
   `<nav class="main-navigation">
@@ -12,7 +25,7 @@ const menuListTemplate = (filters) => (
   </nav>`
 );
 
-export default class MenuList {
+export default class Menu {
   constructor(filters) {
     this._filters = filters;
     this._element = null;

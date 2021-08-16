@@ -1,4 +1,5 @@
-import { createElement } from '../utils.js';
+import { createElement } from '../utils-common.js';
+import { changeDateFormatToYear } from './utils-for-view.js';
 
 const filmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
@@ -17,7 +18,7 @@ const filmCardTemplate = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${release.format('YYYY')}</span>
+      <span class="film-card__year">${changeDateFormatToYear(release)}</span>
       <span class="film-card__duration">${runtime.runtimeHours}h ${runtime.runtimeMins}m</span>
       <span class="film-card__genre">${genres[0]}</span>
     </p>
