@@ -1,6 +1,7 @@
+import {createElement} from '../utils.js';
+
 const statisticsTemplate = () => (
-  `
-  <section class="statistic">
+  `<section class="statistic">
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
@@ -24,4 +25,24 @@ const statisticsTemplate = () => (
   `
 );
 
-export {statisticsTemplate};
+export default class Statistics {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return statisticsTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

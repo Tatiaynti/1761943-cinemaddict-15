@@ -142,7 +142,7 @@ const generateAgeRating = () => {
 
 const generateDate = () => {
   const day = dayjs().date((getRandomInteger(-22265, dayjs().date())));
-  return dayjs(day).format('DD MMMM YYYY');
+  return dayjs(day);
 };
 
 const generateFilm = () => {
@@ -156,7 +156,6 @@ const generateFilm = () => {
     description: generateDescription(),
     comments: generateComments(),
     rating: getRandomFloat(1, 10, 1),
-    releaseYear: getRandomInteger(1960, 2021),
     runtime: {runtimeHours, runtimeMins},
     genres: [...new Set(genresArray)],
     director: generateDirector(),
