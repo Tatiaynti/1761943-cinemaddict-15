@@ -4,7 +4,7 @@ import ShowMoreButtonView from './view/show-more-button.js';
 import StatisticsView from './view/statistics.js';
 import SortView from './view/sort.js';
 import {generateFilms} from './mock/film.js';
-import {renderElement, RenderPosition} from './utils-common.js';
+import {renderElement, RenderPosition} from './utils.js/utils-for-render.js';
 import {generateFilter} from './view/menu.js';
 import FilmsContainerView from './view/film-container.js';
 import FilmsListView from './view/film-list.js';
@@ -25,17 +25,17 @@ const mainElement = document.querySelector('.main');
 const footerElement = document.querySelector('.footer');
 const bodyElement = document.querySelector('body');
 
-renderElement(headerElement, new ProfileView().getElement(), RenderPosition.BEFOREEND);
-renderElement(mainElement, new MenuView(filters).getElement(), RenderPosition.BEFOREEND);
-renderElement(mainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
+renderElement(headerElement, new ProfileView(), RenderPosition.BEFOREEND);
+renderElement(mainElement, new MenuView(filters), RenderPosition.BEFOREEND);
+renderElement(mainElement, new SortView(), RenderPosition.BEFOREEND);
 
 const filmsContainer = new FilmsContainerView();
 const filmsList = new FilmsListView();
 // const filmListExtraTop = new FilmListExtraView('Top rated movies');
 // const filmListExtraMostCommented = new FilmListExtraView('Most commented');
 
-renderElement(mainElement, filmsContainer.getElement(), RenderPosition.BEFOREEND);
-renderElement(filmsContainer.getElement(), filmsList.getElement(), RenderPosition.BEFOREEND);
+renderElement(mainElement, filmsContainer, RenderPosition.BEFOREEND);
+renderElement(filmsContainer, filmsList, RenderPosition.BEFOREEND);
 // renderElement(filmsContainer.getElement(), filmListExtraTop.getElement(), RenderPosition.BEFOREEND);
 // renderElement(filmsContainer.getElement(), filmListExtraMostCommented.getElement(), RenderPosition.BEFOREEND);
 
@@ -43,7 +43,7 @@ const renderFilmCards = (container, film) => {
   const filmCard = new FilmCardView(film);
   const popup = new FilmDetailsView(film);
   const renderPopup = () => {
-    renderElement(bodyElement, popup.getElement(), RenderPosition.BEFOREEND);
+    renderElement(bodyElement, popup, RenderPosition.BEFOREEND);
     bodyElement.classList.add('hide-overflow');
 
     const removePopup = () => {
@@ -64,7 +64,7 @@ const renderFilmCards = (container, film) => {
 
   filmCard.setOpenClickHandler(renderPopup);
 
-  renderElement(container, filmCard.getElement(), RenderPosition.BEFOREEND);
+  renderElement(container, filmCard, RenderPosition.BEFOREEND);
 };
 const minFilms = Math.min(allFilms.length, FILM_CARDS_PER_STEP);
 
@@ -75,7 +75,7 @@ for (let i = 0; i < minFilms; i++) {
 if (allFilms.length > FILM_CARDS_PER_STEP) {
   let renderedFilmCount = FILM_CARDS_PER_STEP;
   const showMoreButton = new ShowMoreButtonView();
-  renderElement(filmsList.getElement(), showMoreButton.getElement(), RenderPosition.BEFOREEND);
+  renderElement(filmsList, showMoreButton, RenderPosition.BEFOREEND);
 
   showMoreButton.setLoadMoreClickHandler(() => {
     allFilms

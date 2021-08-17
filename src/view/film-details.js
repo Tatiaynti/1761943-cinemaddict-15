@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToFull} from './utils-for-view.js';
+import {changeDateFormatToFull} from '../utils.js/utils-for-render.js';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
