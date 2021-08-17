@@ -1,4 +1,4 @@
-import { createElement } from '../utils-common.js';
+import AbstractView from './abstract.js';
 import { changeDateFormatToFull } from './utils-for-view.js';
 
 const commentsTemplate = (comments) => (
@@ -134,25 +134,13 @@ const filmDetailsTemplate = (popup) => {
 };
 
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return filmDetailsTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

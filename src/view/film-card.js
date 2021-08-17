@@ -1,4 +1,4 @@
-import { createElement } from '../utils-common.js';
+import AbstractView from './abstract.js';
 import { changeDateFormatToYear } from './utils-for-view.js';
 
 const filmCardTemplate = (film) => {
@@ -34,25 +34,13 @@ const filmCardTemplate = (film) => {
 `;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return filmCardTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

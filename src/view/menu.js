@@ -1,4 +1,4 @@
-import {createElement} from '../utils-common.js';
+import AbstractView from './abstract.js';
 
 const countFilters = (accumulator, film) => ({
   watchlist: film.isInWatchlist ? ++accumulator.watchlist : accumulator.watchlist,
@@ -26,25 +26,13 @@ const menuListTemplate = (filters) => (
   </nav>`
 );
 
-export default class Menu {
+export default class Menu extends AbstractView {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return menuListTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

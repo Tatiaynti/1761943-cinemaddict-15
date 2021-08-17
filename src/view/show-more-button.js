@@ -5,7 +5,7 @@ const showMoreButtonTemplate = () => (
   `
 );
 
-export default class ShowMoreButton extends AbstractView{
+export default class ShowMoreButton extends AbstractView {
   getTemplate() {
     return showMoreButtonTemplate();
   }
