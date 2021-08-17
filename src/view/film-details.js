@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import { changeDateFormatToFull } from './utils-for-view.js';
+import {changeDateFormatToFull} from './utils-for-view.js';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
@@ -133,14 +133,24 @@ const filmDetailsTemplate = (popup) => {
   `;
 };
 
-
 export default class FilmDetails extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
+    this._closeClickHandler = this._closeClickHandler.bind(this);
   }
 
   getTemplate() {
     return filmDetailsTemplate(this._film);
+  }
+
+  _closeClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeClick();
+  }
+
+  setCloseClickHandler(callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
 }
