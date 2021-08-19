@@ -11,7 +11,7 @@ import FilmsListView from './view/film-list.js';
 // import FilmListExtraView from './view/film-list-extra.js';
 import FilmCardView from './view/film-card.js';
 import FilmDetailsView from './view/film-details.js';
-import {KEY} from './data.js';
+import {Key} from './data.js';
 
 const FILM_CARDS_COUNT = 18;
 const FILM_CARDS_PER_STEP = 5;
@@ -53,7 +53,7 @@ const renderFilmCards = (container, film) => {
     popup.setCloseClickHandler(removePopup);
 
     const onEscKeyDown = (evt) => {
-      if (evt.key === KEY.ESCAPE || evt.key === KEY.ESC) {
+      if (evt.key === Key.ESCAPE || evt.key === Key.ESC) {
         evt.preventDefault();
         removePopup();
         document.removeEventListener('keydown', onEscKeyDown);

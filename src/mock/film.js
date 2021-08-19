@@ -1,5 +1,5 @@
 import {generateComments} from './comments.js';
-import {getRandomFloat, getRandomInteger } from '../utils.js/utils-for-mock.js';
+import {getRandomFloat, getRandomInteger} from '../utils/utils-for-mock.js';
 import dayjs from 'dayjs';
 
 const GENRES = [
