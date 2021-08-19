@@ -14,7 +14,6 @@ import FilmDetailsView from './view/film-details.js';
 import {Key} from './data.js';
 
 const FILM_CARDS_COUNT = 18;
-const FILM_CARDS_PER_STEP = 5;
 // const EXTRA_CARDS = 2;
 
 const allFilms = generateFilms(FILM_CARDS_COUNT);
