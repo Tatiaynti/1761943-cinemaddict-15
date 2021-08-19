@@ -1,4 +1,5 @@
-import { createElement } from '../utils.js';
+import AbstractView from './abstract.js';
+import {changeDateFormatToFull} from '../utils.js/utils-for-render.js';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
@@ -67,7 +68,7 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release.format('DD MMMM YYYY')}</td>
+              <td class="film-details__cell">${changeDateFormatToFull(release)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -132,26 +133,24 @@ const filmDetailsTemplate = (popup) => {
   `;
 };
 
-
-export default class FilmDetails {
+export default class FilmDetails extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+    this._closeClickHandler = this._closeClickHandler.bind(this);
   }
 
   getTemplate() {
     return filmDetailsTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _closeClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setCloseClickHandler(callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
 }

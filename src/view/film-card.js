@@ -1,4 +1,5 @@
-import { createElement } from '../utils.js';
+import AbstractView from './abstract.js';
+import {changeDateFormatToYear} from '../utils.js/utils-for-render.js';
 
 const filmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
@@ -17,7 +18,7 @@ const filmCardTemplate = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${release.format('YYYY')}</span>
+      <span class="film-card__year">${changeDateFormatToYear(release)}</span>
       <span class="film-card__duration">${runtime.runtimeHours}h ${runtime.runtimeMins}m</span>
       <span class="film-card__genre">${genres[0]}</span>
     </p>
@@ -33,25 +34,26 @@ const filmCardTemplate = (film) => {
 `;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+    this._openClickHandler = this._openClickHandler.bind(this);
   }
 
   getTemplate() {
     return filmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _openClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.openClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setOpenClickHandler(callback) {
+    this._callback.openClick = callback;
+    this.getElement().querySelector('.film-card__poster').addEventListener('click', this._openClickHandler);
+    this.getElement().querySelector('.film-card__title').addEventListener('click', this._openClickHandler);
+    this.getElement().querySelector('.film-card__comments').addEventListener('click', this._openClickHandler);
   }
 }
