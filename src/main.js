@@ -3,7 +3,7 @@ import StatisticsView from './view/statistics.js';
 import {generateFilms} from './mock/film.js';
 import {renderElement, RenderPosition} from './utils/utils-for-render.js';
 import {generateFilter} from './view/menu.js';
-import FilmsPresenter from './presenter/films-list-presenter.js';
+import FilmsPresenter from './presenter/films-board-presenter';
 
 const FILM_CARDS_COUNT = 18;
 

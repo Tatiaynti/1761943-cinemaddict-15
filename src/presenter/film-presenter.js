@@ -1,4 +1,4 @@
-import FilmDetailsView from '../view/film-details.js';
+import FilmPopupView from '../view/popup.js';
 import FilmCardView from '../view/film-card.js';
 import {remove, renderElement, RenderPosition, replace} from '../utils/utils-for-render.js';
 import {Key} from '../data.js';
@@ -17,7 +17,7 @@ export default class FilmCard {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
     this._handleOpenPopup = this._handleOpenPopup.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
-    this._handleAlreadyWatchedClick = this._handleAlreadyWatchedClick.bind(this);
+    this._handleIsWatchedClick = this._handleIsWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
   }
 
@@ -28,14 +28,14 @@ export default class FilmCard {
     const prevPopup = this._popup;
 
     this._filmCard = new FilmCardView(this._film);
-    this._popup = new FilmDetailsView(this._film);
+    this._popup = new FilmPopupView(this._film);
 
     this._filmCard.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._filmCard.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
+    this._filmCard.setIsWatchedClickHandler(this._handleIsWatchedClick);
     this._filmCard.setFavoriteClickHandler(this._handleFavoriteClick);
 
     this._popup.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._popup.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
+    this._popup.setIsWatchedClickHandler(this._handleIsWatchedClick);
     this._popup.setFavoriteClickHandler(this._handleFavoriteClick);
 
     if (prevFilmCard === null || prevPopup === null) {
@@ -74,7 +74,7 @@ export default class FilmCard {
     );
   }
 
-  _handleAlreadyWatchedClick() {
+  _handleIsWatchedClick() {
     this._changeData(
       Object.assign(
         {},
