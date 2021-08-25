@@ -5,22 +5,21 @@ import SortView from '../view/sort.js';
 import EmptyListView from '../view/no-films.js';
 import {remove, renderElement, RenderPosition, updateItem} from '../utils/utils-for-render.js';
 import FilmCardPresenter from './film-presenter.js';
-import MenuView from '../view/menu.js';
+import FiltersView, {generateFilter} from '../view/filters.js';
 
 const FILM_CARDS_PER_STEP = 5;
 
 export default class FilmsPresenter {
-  constructor(pageContainer, filters) {
+  constructor(pageContainer) {
     this._container = pageContainer;
-    this._filters = filters;
 
     this._renderedFilmsCount = FILM_CARDS_PER_STEP;
     this._filmsPresenter = new Map();
 
     this._noFilmsComponent = new EmptyListView();
     this._sortComponent = new SortView();
+    this._filtersComponent = new FiltersView();
     this._filmsContainerComponent = new FilmsContainerView();
-    this._menuComponent = new MenuView(this._filters);
     this._filmsListComponent = new FilmsListView();
     this._showMoreButtonComponent = new ShowMoreButtonView();
 
@@ -30,8 +29,10 @@ export default class FilmsPresenter {
 
   init(films) {
     this._films = films.slice();
+    this._filters = generateFilter(this._films);
+    this._filtersComponent = new FiltersView(this._filters);
 
-    this._renderMenu();
+    this._renderFilters();
     this._renderSort();
 
     renderElement(this._container, this._filmsContainerComponent, RenderPosition.BEFOREEND);
@@ -46,11 +47,11 @@ export default class FilmsPresenter {
   _handleFilmChange(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
     this._filmsPresenter.get(updatedFilm.id).init(updatedFilm);
-    this._renderMenu();
+    this._renderFilters();
   }
 
-  _renderMenu() {
-    renderElement(this._container, this._menuComponent, RenderPosition.BEFOREEND);
+  _renderFilters() {
+    renderElement(this._container, this._filtersComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilmsListContainer() {
