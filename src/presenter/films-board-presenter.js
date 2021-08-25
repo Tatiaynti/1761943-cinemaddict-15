@@ -30,8 +30,8 @@ export default class FilmsPresenter {
   init(films) {
     this._films = films.slice();
     this._filters = generateFilter(this._films);
-    this._filtersComponent = new FiltersView(this._filters);
 
+    this._filtersComponent = new FiltersView(this._filters);
     this._renderFilters();
     this._renderSort();
 
@@ -41,16 +41,23 @@ export default class FilmsPresenter {
   }
 
   _renderSort() {
-    renderElement(this._filmsContainerComponent, this._sortComponent, RenderPosition.BEFOREEND);
+    renderElement(this._container, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _handleFilmChange(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
     this._filmsPresenter.get(updatedFilm.id).init(updatedFilm);
-    this._renderFilters();
+    this._renderUpdatedFilters();
   }
 
   _renderFilters() {
+    renderElement(this._container, this._filtersComponent, RenderPosition.BEFOREEND);
+  }
+
+  _renderUpdatedFilters() {
+    remove(this._filtersComponent);
+    this._filters = generateFilter(this._films);
+    this._filtersComponent = new FiltersView(this._filters);
     renderElement(this._container, this._filtersComponent, RenderPosition.BEFOREEND);
   }
 
