@@ -59,6 +59,9 @@ export default class FilmsPresenter {
     this._filters = generateFilter(this._films);
     this._filtersComponent = new FiltersView(this._filters);
     renderElement(this._container, this._filtersComponent, RenderPosition.BEFOREEND);
+    this._renderSort();
+
+    renderElement(this._container, this._filmsContainerComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilmsListContainer() {
