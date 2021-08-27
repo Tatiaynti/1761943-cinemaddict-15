@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToYear} from '../utils/utils-for-render.js';
+import {changeDateFormatToYear, sliceDescription} from '../utils/utils-for-render.js';
 
 const filmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
@@ -23,7 +23,7 @@ const filmCardTemplate = (film) => {
       <span class="film-card__genre">${genres[0]}</span>
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">
-    <p class="film-card__description">${description}</p>
+    <p class="film-card__description">${sliceDescription(description)}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
       <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlistClassName}" type="button">Add to watchlist</button>

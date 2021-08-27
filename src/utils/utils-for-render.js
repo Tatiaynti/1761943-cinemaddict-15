@@ -1,5 +1,7 @@
 import Abstract from '../view/abstract.js';
 
+export const MAX_LENGTH = 140;
+
 export const RenderPosition = {
   AFTEREND: 'afterend',
   BEFOREEND: 'beforeend',
@@ -37,6 +39,9 @@ export const createElement = (template) => {
 
 export const changeDateFormatToYear = (date) => date.format('YYYY');
 export const changeDateFormatToFull = (date) => date.format('DD MMMM YYYY');
+
+export const sliceDescription = (text) =>
+  text.length >= MAX_LENGTH ? `${text.slice(0, MAX_LENGTH)}...` : text;
 
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
