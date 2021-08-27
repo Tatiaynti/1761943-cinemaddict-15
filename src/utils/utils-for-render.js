@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import Abstract from '../view/abstract.js';
 
 export const MAX_LENGTH = 140;
@@ -42,6 +43,15 @@ export const changeDateFormatToFull = (date) => date.format('DD MMMM YYYY');
 
 export const sliceDescription = (text) =>
   text.length >= MAX_LENGTH ? `${text.slice(0, MAX_LENGTH)}...` : text;
+
+export const sortByDate = (film1, film2) => dayjs(film2.release).diff(film1.release);
+export const sortByRaing = (film1, film2) => film2.rating - film1.rating;
+
+export const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
 
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
