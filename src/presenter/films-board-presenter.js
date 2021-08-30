@@ -93,6 +93,7 @@ export default class FilmsPresenter {
   }
 
   _renderUpdatedFilters() {
+    remove(this._sortComponent);
     remove(this._filtersComponent);
     this._filters = generateFilter(this._films);
     this._filtersComponent = new FiltersView(this._filters);
