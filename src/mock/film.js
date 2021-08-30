@@ -147,6 +147,8 @@ const generateDate = () => {
 };
 
 const generateFilm = () => {
+  const hasComments = Boolean(getRandomInteger(0, 1));
+  const comments = hasComments === false ? [] : generateComments();
   const runtimeHours = getRandomInteger(1, 3);
   const runtimeMins = getRandomInteger(1, 60);
   const genresArray = new Array(getRandomInteger(1, GENRES.length)).fill('').map(() =>
@@ -156,7 +158,7 @@ const generateFilm = () => {
     title: generateTitle(),
     poster: generatePoster(),
     description: generateDescription(),
-    comments: generateComments(),
+    comments,
     rating: getRandomFloat(1, 10, 1),
     runtime: {runtimeHours, runtimeMins},
     genres: [...new Set(genresArray)],
