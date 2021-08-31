@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToYear} from '../utils.js/utils-for-render.js';
+import {changeDateFormatToYear, sliceDescription} from '../utils/utils-for-render.js';
 
 const filmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
@@ -23,11 +23,11 @@ const filmCardTemplate = (film) => {
       <span class="film-card__genre">${genres[0]}</span>
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">
-    <p class="film-card__description">${description}</p>
+    <p class="film-card__description">${sliceDescription(description)}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
-      <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchedClassName}" type="button">Add to watchlist</button>
-      <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${watchlistClassName}" type="button">Mark as watched</button>
+      <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlistClassName}" type="button">Add to watchlist</button>
+      <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${watchedClassName}" type="button">Mark as watched</button>
       <button class="film-card__controls-item film-card__controls-item--favorite ${favoriteClassName}" type="button">Mark as favorite</button>
     </div>
   </article>
@@ -39,6 +39,10 @@ export default class FilmCard extends AbstractView {
     super();
     this._film = film;
     this._openClickHandler = this._openClickHandler.bind(this);
+
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._isWatchedClickHandler = this._isWatchedClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -48,6 +52,36 @@ export default class FilmCard extends AbstractView {
   _openClickHandler(evt) {
     evt.preventDefault();
     this._callback.openClick();
+  }
+
+  _watchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
+  }
+
+  _isWatchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.isWatchedClick();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this._watchlistClickHandler);
+  }
+
+  setIsWatchedClickHandler(callback) {
+    this._callback.isWatchedClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this._isWatchedClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--favorite').addEventListener('click', this._favoriteClickHandler);
   }
 
   setOpenClickHandler(callback) {

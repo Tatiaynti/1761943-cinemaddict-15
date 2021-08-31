@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToFull} from '../utils.js/utils-for-render.js';
+import {changeDateFormatToFull} from '../utils/utils-for-render.js';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
@@ -22,15 +22,6 @@ const commentsTemplate = (comments) => (
 
 const filmDetailsTemplate = (popup) => {
   const {poster, title, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched, comments} = popup;
-  const favoriteClassName = isFavorite
-    ? 'film-details__control-button--active'
-    : '';
-  const watchlistClassName = isInWatchlist
-    ? 'film-details__control-button--active'
-    : '';
-  const watchedClassName = isWatched
-    ? 'film-details__control-button--active'
-    : '';
   return `
   <section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -91,9 +82,9 @@ const filmDetailsTemplate = (popup) => {
         </div>
       </div>
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist ${watchlistClassName}" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--watched ${watchedClassName}" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite ${favoriteClassName}" id="favorite" name="favorite">Add to favorites</button>
+        <button type="button" class="film-details__control-button film-details__control-button--watchlist ${isInWatchlist ? 'film-details__control-button--active' : ''}" id="watchlist" name="watchlist">Add to watchlist</button>
+        <button type="button" class="film-details__control-button film-details__control-button--watched ${isWatched ? 'film-details__control-button--active' : ''}" id="watched" name="watched">Already watched</button>
+        <button type="button" class="film-details__control-button film-details__control-button--favorite ${isFavorite ? 'film-details__control-button--active' : ''}" id="favorite" name="favorite">Add to favorites</button>
       </section>
     </div>
     <div class="film-details__bottom-container">
@@ -133,11 +124,15 @@ const filmDetailsTemplate = (popup) => {
   `;
 };
 
-export default class FilmDetails extends AbstractView {
+export default class FilmPopup extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
     this._closeClickHandler = this._closeClickHandler.bind(this);
+
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._isWatchedClickHandler = this._isWatchedClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -153,4 +148,35 @@ export default class FilmDetails extends AbstractView {
     this._callback.closeClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
+
+  _watchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
+  }
+
+  _isWatchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.isWatchedClick();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector('.film-details__control-button--watchlist').addEventListener('click', this._watchlistClickHandler);
+  }
+
+  setIsWatchedClickHandler(callback) {
+    this._callback.isWatchedClick = callback;
+    this.getElement().querySelector('.film-details__control-button--watched').addEventListener('click', this._isWatchedClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoriteClickHandler);
+  }
+
 }

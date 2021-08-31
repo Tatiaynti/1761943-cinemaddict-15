@@ -14,7 +14,7 @@ export const generateFilter = (films) => (
   })
 );
 
-const menuListTemplate = (filters) => (
+const filtersTemplate = (filters) => (
   `<nav class="main-navigation">
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
@@ -26,13 +26,13 @@ const menuListTemplate = (filters) => (
   </nav>`
 );
 
-export default class Menu extends AbstractView {
-  constructor(filters) {
+export default class Filters extends AbstractView {
+  constructor(films) {
     super();
-    this._filters = filters;
+    this._filters = films;
   }
 
   getTemplate() {
-    return menuListTemplate(this._filters);
+    return filtersTemplate(this._filters);
   }
 }

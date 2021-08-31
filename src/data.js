@@ -1,4 +1,4 @@
-export const KEY = {
+export const Key = {
   ESC: 'Esc',
   ESCAPE: 'Escape',
 };

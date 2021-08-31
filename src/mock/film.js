@@ -1,6 +1,7 @@
 import {generateComments} from './comments.js';
-import {getRandomFloat, getRandomInteger } from '../utils.js/utils-for-mock.js';
+import {getRandomFloat, getRandomInteger} from '../utils/utils-for-mock.js';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 
 const GENRES = [
   'action',
@@ -151,6 +152,7 @@ const generateFilm = () => {
   const genresArray = new Array(getRandomInteger(1, GENRES.length)).fill('').map(() =>
     GENRES[getRandomInteger(0, GENRES.length - 1)]);
   return {
+    id: nanoid(),
     title: generateTitle(),
     poster: generatePoster(),
     description: generateDescription(),
