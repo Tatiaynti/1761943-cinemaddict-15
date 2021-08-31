@@ -40,6 +40,7 @@ export const createElement = (template) => {
 
 export const changeDateFormatToYear = (date) => date.format('YYYY');
 export const changeDateFormatToFull = (date) => date.format('DD MMMM YYYY');
+export const changeDateFormatForComments = (date) => date.format(('YYYY/MM/DD'));
 
 export const sliceDescription = (text) =>
   text.length >= MAX_LENGTH ? `${text.slice(0, MAX_LENGTH)}...` : text;
