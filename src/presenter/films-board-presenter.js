@@ -10,8 +10,9 @@ import FiltersView, {generateFilter} from '../view/filters.js';
 const FILM_CARDS_PER_STEP = 5;
 
 export default class FilmsPresenter {
-  constructor(pageContainer) {
+  constructor(pageContainer, filmsModel) {
     this._container = pageContainer;
+    this._filmsModel = filmsModel;
 
     this._renderedFilmsCount = FILM_CARDS_PER_STEP;
     this._filmsPresenter = new Map();
@@ -39,6 +40,10 @@ export default class FilmsPresenter {
     renderElement(this._container, this._filmsContainerComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoard();
+  }
+
+  _getFilms() {
+    return this._filmsModel.getFilms();
   }
 
   _renderSort() {
