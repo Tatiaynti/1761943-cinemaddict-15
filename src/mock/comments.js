@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import {getRandomInteger} from '../utils/utils-for-mock.js';
+import { changeDateFormatForComments } from '../utils/utils-for-render.js';
 
 const generateText = () => {
   const texts = [
@@ -23,10 +24,10 @@ const generateText = () => {
 
 const generateEmoji = () => {
   const emojis = [
-    './images/emoji/angry.png',
-    './images/emoji/puke.png',
-    './images/emoji/sleeping.png',
-    './images/emoji/smile.png',
+    'angry',
+    'puke',
+    'sleeping',
+    'smile',
   ];
 
   const randomIndex = getRandomInteger(0, emojis.length - 1);
@@ -50,9 +51,9 @@ const generateAuthor = () => {
   return authors[randomIndex];
 };
 
-const generateCommentDate = () => {
+export const generateCommentDate = () => {
   const day = dayjs().date((getRandomInteger(-1095, dayjs().date())));
-  return dayjs(day).format('YYYY/MM/DD');
+  return changeDateFormatForComments(dayjs(day));
 };
 
 const generateComments = () => {

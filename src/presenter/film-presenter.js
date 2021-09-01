@@ -2,6 +2,7 @@ import FilmPopupView from '../view/popup.js';
 import FilmCardView from '../view/film-card.js';
 import {remove, renderElement, RenderPosition, replace} from '../utils/utils-for-render.js';
 import {Key} from '../data.js';
+import PopupCommentsView from '../view/popup-comments.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -107,6 +108,7 @@ export default class FilmCard {
   _handleOpenPopup() {
     this._removeOldPopup();
     renderElement(bodyElement, this._popup, RenderPosition.BEFOREEND);
+    renderElement(this._popup.getElement().querySelector('.film-details__bottom-container'), new PopupCommentsView(this._film), RenderPosition.BEFOREEND);
 
     bodyElement.classList.add('hide-overflow');
 
