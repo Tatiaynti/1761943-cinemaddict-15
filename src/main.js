@@ -19,6 +19,6 @@ const footerElement = document.querySelector('.footer');
 renderElement(headerElement, new ProfileView(), RenderPosition.BEFOREEND);
 
 const filmsPresenter = new FilmsPresenter(mainElement, filmsModel);
-filmsPresenter.init(allFilms);
+filmsPresenter.init();
 
 renderElement(footerElement, new StatisticsView().getElement(), RenderPosition.AFTEREND);
