@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 import {getRandomInteger} from '../utils/utils-for-mock.js';
-import { changeDateFormatForComments } from '../utils/utils-for-render.js';
+import {changeDateFormatForComments} from '../utils/utils-for-render.js';
 
 const generateText = () => {
   const texts = [
@@ -61,7 +62,7 @@ const generateComments = () => {
   const commentsNumber = getRandomInteger(1, 5);
   for (let i = 0; i < commentsNumber; i++) {
     comments.push({
-      id: getRandomInteger(1, 10000),
+      id: nanoid(),
       text: generateText(),
       emoji: generateEmoji(),
       author: generateAuthor(),

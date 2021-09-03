@@ -48,33 +48,16 @@ export const sliceDescription = (text) =>
 export const sortByDate = (film1, film2) => dayjs(film2.release).diff(film1.release);
 export const sortByRaing = (film1, film2) => film2.rating - film1.rating;
 
-export const SortType = {
-  DEFAULT: 'default',
-  DATE: 'date',
-  RATING: 'rating',
-};
-
 export const remove = (component) => {
+  if (component === null) {
+    return;
+  }
   if (!(component instanceof Abstract)) {
     throw new Error('Can remove only components');
   }
 
   component.getElement().remove();
   component.removeElement();
-};
-
-export const updateItem = (items, update) => {
-  const index = items.findIndex((item) => item.id === update.id);
-
-  if (index === -1) {
-    return items;
-  }
-
-  return [
-    ...items.slice(0, index),
-    update,
-    ...items.slice(index + 1),
-  ];
 };
 
 export const replace = (newChild, oldChild) => {
