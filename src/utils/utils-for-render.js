@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { FilterType } from '../const.js';
+import {FilterType} from '../const.js';
 import Abstract from '../view/abstract.js';
 
 export const MAX_LENGTH = 140;
