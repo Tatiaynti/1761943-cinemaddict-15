@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { FilterType } from '../const.js';
 import Abstract from '../view/abstract.js';
 
 export const MAX_LENGTH = 140;
@@ -76,4 +77,11 @@ export const replace = (newChild, oldChild) => {
   }
 
   parent.replaceChild(newChild, oldChild);
+};
+
+export const filter = {
+  [FilterType.ALL]: (films) => films,
+  [FilterType.WATCHLIST]: (films) => films.filter((film) => film.isInWatchlist),
+  [FilterType.HISTORY]: (films) => films.filter((film) => film.isWatched),
+  [FilterType.FAVORITES]: (films) => films.filter((film) => film.isFavorite),
 };

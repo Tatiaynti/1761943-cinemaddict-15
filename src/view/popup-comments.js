@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { nanoid } from 'nanoid';
+import {nanoid} from 'nanoid';
 import {changeDateFormatForComments} from '../utils/utils-for-render.js';
 import SmartView from './smart.js';
 
