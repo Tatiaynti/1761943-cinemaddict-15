@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import {nanoid} from 'nanoid';
 import {changeDateFormatForComments} from '../utils/utils-for-render.js';
 import SmartView from './smart.js';
+import he from 'he';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
@@ -11,7 +12,7 @@ const commentsTemplate = (comments) => (
       <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">
     </span>
     <div>
-      <p class="film-details__comment-text">${text}</p>
+      <p class="film-details__comment-text">${he.encode(text)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
         <span class="film-details__comment-day">${date}</span>
@@ -33,7 +34,7 @@ const commentsContainerTemplate = (film, newComment) => {
         <div class="film-details__new-comment">
         <div class="film-details__add-emoji-label">${newComment.emoji ? `<img src="images/emoji/${newComment.emoji}.png" width="55" height="55" alt="emoji-${newComment.emoji}"></img>` : '' }</div>
         <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment.text ? newComment.text : ''}</textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(newComment.text ? newComment.text : '')}</textarea>
           </label>
           <div class="film-details__emoji-list">
             <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
