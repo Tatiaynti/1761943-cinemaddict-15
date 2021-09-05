@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {nanoid} from 'nanoid';
-import {changeDateFormatForComments} from '../utils/utils-for-render.js';
+import {changeDateFormatForComments} from '../utils/utils-common.js';
 import SmartView from './smart.js';
 import he from 'he';
 
@@ -87,7 +87,6 @@ export default class PopupComments extends SmartView {
     this.getElement()
       .querySelectorAll('.film-details__comment-delete')
       .forEach((deleteButton) => deleteButton.addEventListener('click', this._commentDeleteClickHandler));
-
   }
 
   restoreHandlers() {

@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToYear, sliceDescription} from '../utils/utils-for-render.js';
+import {changeDateFormatToYear, sliceDescription} from '../utils/utils-common.js';
 
 const filmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;

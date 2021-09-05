@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {nanoid} from 'nanoid';
 import {getRandomInteger} from '../utils/utils-for-mock.js';
-import {changeDateFormatForComments} from '../utils/utils-for-render.js';
+import {changeDateFormatForComments} from '../utils/utils-common.js';
 
 const generateText = () => {
   const texts = [
