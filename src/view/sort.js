@@ -1,4 +1,4 @@
-import {SortType} from '../utils/utils-for-render.js';
+import {SortType} from '../const.js';
 import AbstractView from './abstract.js';
 
 const sortTemplate = (currentSortType) => (

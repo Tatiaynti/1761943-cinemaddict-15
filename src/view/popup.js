@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToFull} from '../utils/utils-for-render.js';
+import {changeDateFormatToFull} from '../utils/utils-common.js';
 
 const filmDetailsTemplate = (popup) => {
   const {poster, title, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched} = popup;
@@ -69,7 +69,6 @@ const filmDetailsTemplate = (popup) => {
       </section>
     </div>
     <div class="film-details__bottom-container">
-
     </div>
   </form>
 </section>
@@ -130,5 +129,4 @@ export default class FilmPopup extends AbstractView {
     this._callback.favoriteClick = callback;
     this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoriteClickHandler);
   }
-
 }

@@ -1,38 +1,56 @@
 import AbstractView from './abstract.js';
 
-const countFilters = (accumulator, film) => ({
-  watchlist: film.isInWatchlist ? ++accumulator.watchlist : accumulator.watchlist,
-  history: film.isWatched ? ++accumulator.history : accumulator.history,
-  favorites: film.isFavorite ? ++accumulator.favorites : accumulator.favorites,
-});
+const filtersTabsTemplate = (filters, currentFilterType) =>  {
+  const {type, name, count} = filters;
 
-export const generateFilter = (films) => (
-  films.reduce(countFilters, {
-    watchlist: 0,
-    history: 0,
-    favorites: 0,
-  })
-);
+  if (name !== 'All movies') {
+    return (
+      `<a href="#${name}" class="main-navigation__item ${type === currentFilterType ?
+        'main-navigation__item--active' :
+        ''}" data-sort-type="${type}">${name} <span class="main-navigation__item-count">${count}</span></a>`
+    );
+  } else {
+    return (`<a href="#${name}" class="main-navigation__item ${type === currentFilterType ?
+      'main-navigation__item--active' :
+      ''}" data-sort-type="${type}">${name} </a>`
+    );
+  }
+};
 
-const filtersTemplate = (filters) => (
-  `<nav class="main-navigation">
-    <div class="main-navigation__items">
-      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${filters.watchlist}</span></a>
-      <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${filters.history}</span></a>
-      <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${filters.favorites}</span></a>
-    </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
-  </nav>`
-);
+const filtersTemplate = (filters, currentFilterType) => {
+  const filtersItemsMap = filters.map((filter) => filtersTabsTemplate(filter, currentFilterType)).join('');
+  return (
+    `<nav class="main-navigation">
+      <div class="main-navigation__items">
+        ${filtersItemsMap}
+        </div>
+      <a href="#stats" class="main-navigation__additional ${currentFilterType === 'stats' ?
+      'main-navigation__additional--active' :
+      ''}">Stats</a>
+    </nav>`
+  );
+};
 
 export default class Filters extends AbstractView {
-  constructor(films) {
+  constructor(filters, currentFilterType) {
     super();
-    this._filters = films;
+    this._filters = filters;
+    this._currentFilter = currentFilterType;
+
+    this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return filtersTemplate(this._filters);
+    return filtersTemplate(this._filters, this._currentFilter);
+  }
+
+  _filterTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.filterTypeChange(evt.target.dataset.sortType);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().querySelectorAll('.main-navigation__item').forEach((navItem) => navItem.addEventListener('click', this._filterTypeChangeHandler));
   }
 }

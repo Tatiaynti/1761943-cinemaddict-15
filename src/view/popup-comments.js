@@ -1,20 +1,22 @@
 import dayjs from 'dayjs';
-import { changeDateFormatForComments } from '../utils/utils-for-render.js';
+import {nanoid} from 'nanoid';
+import {changeDateFormatForComments} from '../utils/utils-common.js';
 import SmartView from './smart.js';
+import he from 'he';
 
 const commentsTemplate = (comments) => (
   comments.map((comment) => {
-    const {text, emoji, author, date} = comment;
+    const {id, text, emoji, author, date} = comment;
     return `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">
     </span>
     <div>
-      <p class="film-details__comment-text">${text}</p>
+      <p class="film-details__comment-text">${he.encode(text)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
         <span class="film-details__comment-day">${date}</span>
-        <button class="film-details__comment-delete">Delete</button>
+        <button class="film-details__comment-delete" data-comment-id=${id}>Delete</button>
       </p>
     </div>
   </li>`;
@@ -32,7 +34,7 @@ const commentsContainerTemplate = (film, newComment) => {
         <div class="film-details__new-comment">
         <div class="film-details__add-emoji-label">${newComment.emoji ? `<img src="images/emoji/${newComment.emoji}.png" width="55" height="55" alt="emoji-${newComment.emoji}"></img>` : '' }</div>
         <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment.text ? newComment.text : ''}</textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(newComment.text ? newComment.text : '')}</textarea>
           </label>
           <div class="film-details__emoji-list">
             <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
@@ -65,9 +67,10 @@ export default class PopupComments extends SmartView {
     this._emojiButtonHandler = this._emojiButtonHandler.bind(this);
     this._commentTextHandler = this._commentTextHandler.bind(this);
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
+    this._commentDeleteClickHandler = this._commentDeleteClickHandler.bind(this);
 
     this._setInnerHandlers();
-    this._setCommentSubmitHandler();
+    this.setCommentSubmitHandler();
   }
 
   getTemplate() {
@@ -81,11 +84,15 @@ export default class PopupComments extends SmartView {
     this.getElement()
       .querySelector('.film-details__comment-input')
       .addEventListener('input', this._commentTextHandler);
+    this.getElement()
+      .querySelectorAll('.film-details__comment-delete')
+      .forEach((deleteButton) => deleteButton.addEventListener('click', this._commentDeleteClickHandler));
   }
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this._setCommentSubmitHandler();
+    this.setCommentSubmitHandler();
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   static parseDataToComment(film, data) {
@@ -95,6 +102,7 @@ export default class PopupComments extends SmartView {
       {
         date: changeDateFormatForComments(dayjs()),
         author: 'Movie Buff',
+        id: nanoid(),
       },
     );
 
@@ -132,7 +140,7 @@ export default class PopupComments extends SmartView {
     }
   }
 
-  _setCommentSubmitHandler() {
+  setCommentSubmitHandler() {
     this.getElement().addEventListener('keydown', this._commentSubmitHandler);
   }
 
@@ -143,5 +151,19 @@ export default class PopupComments extends SmartView {
       top: popup.scrollHeight,
       behavior: 'smooth',
     });
+  }
+
+  _commentDeleteClickHandler(evt) {
+    evt.preventDefault();
+    const id = evt.target.dataset.commentId;
+    this._callback.deleteClick(id);
+    this._scrollDown();
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement()
+      .querySelectorAll('.film-details__comment-delete')
+      .forEach((deleteButton) => deleteButton.addEventListener('click', this._commentDeleteClickHandler));
   }
 }
