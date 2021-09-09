@@ -27,3 +27,8 @@ export const FilterType = {
   HISTORY: 'history',
   FAVORITES: 'favorites',
 };
+
+export const Mode = {
+  OPEN: 'open',
+  CLOSED: 'closed',
+};

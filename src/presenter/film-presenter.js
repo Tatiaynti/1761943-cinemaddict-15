@@ -1,7 +1,7 @@
 import FilmPopupView from '../view/popup.js';
 import FilmCardView from '../view/film-card.js';
 import {remove, renderElement, RenderPosition, replace} from '../utils/utils-for-render.js';
-import {Key, UpdateType, UserAction} from '../const.js';
+import {Key, Mode, UpdateType, UserAction} from '../const.js';
 import PopupCommentsView from '../view/popup-comments.js';
 
 const bodyElement = document.querySelector('body');
@@ -13,6 +13,8 @@ export default class FilmCard {
 
     this._filmCard = null;
     this._popup = null;
+
+    this._mode = Mode.CLOSED;
 
     this._handleRemovePopup = this._handleRemovePopup.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
@@ -75,7 +77,7 @@ export default class FilmCard {
   _handleWatchlistClick() {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      this._mode === Mode.CLOSED ? UpdateType.MINOR : UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -89,7 +91,7 @@ export default class FilmCard {
   _handleIsWatchedClick() {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      this._mode === Mode.CLOSED ? UpdateType.MINOR : UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -103,7 +105,7 @@ export default class FilmCard {
   _handleFavoriteClick() {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      this._mode === Mode.CLOSED ? UpdateType.MINOR : UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -130,6 +132,8 @@ export default class FilmCard {
   }
 
   _handleOpenPopup() {
+    this._mode = Mode.OPEN;
+
     this._removeOldPopup();
     renderElement(bodyElement, this._popup, RenderPosition.BEFOREEND);
     renderElement(this._popup.getElement().querySelector('.film-details__bottom-container'), this._popupComments, RenderPosition.BEFOREEND);
@@ -144,6 +148,7 @@ export default class FilmCard {
   _handleRemovePopup() {
     remove(this._popup);
     bodyElement.classList.remove('hide-overflow');
+    this._mode = Mode.CLOSED;
   }
 
   _escKeyDownHandler(evt) {
