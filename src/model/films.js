@@ -75,7 +75,7 @@ export default class Films extends AbstractObserver {
         isInWatchlist: movie['user_details']['watchlist'],
         isWatched: movie['user_details']['already_watched'],
         isFavorite: movie['user_details']['favorite'],
-        comments: movie.comments.length,
+        comments: movie.comments,
         altTitle: movie['film_info']['alternative_title'],
         watchingDate: movie['user_details']['watching_date'],
 

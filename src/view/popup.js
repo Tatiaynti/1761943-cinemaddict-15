@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToFull} from '../utils/utils-common.js';
+import {formatReleaseDate, generateRuntime} from '../utils/utils-common.js';
 
 const filmDetailsTemplate = (popup) => {
   const {poster, title, altTitle, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched} = popup;
@@ -40,11 +40,11 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release}</td>
+              <td class="film-details__cell">${formatReleaseDate(release, 'DD MMMM YYYY')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${runtime.runtimeHours}h ${runtime.runtimeMins}m</td>
+              <td class="film-details__cell">${generateRuntime(runtime)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
