@@ -8,11 +8,11 @@ const filmCardTemplate = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${changeDateFormatToYear(release)}</span>
+      <span class="film-card__year">${release}</span>
       <span class="film-card__duration">${runtime.runtimeHours}h ${runtime.runtimeMins}m</span>
       <span class="film-card__genre">${genres[0]}</span>
     </p>
-    <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+    <img src="${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${sliceDescription(description)}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">

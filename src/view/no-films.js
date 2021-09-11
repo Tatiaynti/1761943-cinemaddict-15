@@ -11,9 +11,9 @@ const NoFilmsTextType = {
 const createEmptyList = (filterType) => {
   const noFilmTextValue = NoFilmsTextType[filterType];
   return (
-    `<section class="films-list">
+    `
       <h2 class="films-list__title">${noFilmTextValue}</h2>
-    </section>`);
+    `);
 };
 
 export default class EmptyList extends AbstractView {

@@ -2,12 +2,12 @@ import FilmPopupView from '../view/popup.js';
 import FilmCardView from '../view/film-card.js';
 import {remove, renderElement, RenderPosition, replace} from '../utils/utils-for-render.js';
 import {Key, Mode, UpdateType, UserAction} from '../const.js';
-import PopupCommentsView from '../view/popup-comments.js';
+// import PopupCommentsView from '../view/popup-comments.js';
 
 const bodyElement = document.querySelector('body');
 
 export default class FilmCard {
-  constructor(container, changeData) {
+  constructor(container, changeData, api) {
     this._filmContainer = container;
     this._changeData = changeData;
 
@@ -33,7 +33,7 @@ export default class FilmCard {
 
     this._filmCard = new FilmCardView(this._film);
     this._popup = new FilmPopupView(this._film);
-    this._popupComments = new PopupCommentsView(this._film);
+    // this._popupComments = new PopupCommentsView(this._film);
 
     this._filmCard.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmCard.setIsWatchedClickHandler(this._handleIsWatchedClick);
@@ -42,7 +42,7 @@ export default class FilmCard {
     this._popup.setWatchlistClickHandler(this._handleWatchlistClick);
     this._popup.setIsWatchedClickHandler(this._handleIsWatchedClick);
     this._popup.setFavoriteClickHandler(this._handleFavoriteClick);
-    this._popupComments.setDeleteClickHandler(this._handleDeleteComment);
+    // this._popupComments.setDeleteClickHandler(this._handleDeleteComment);
 
 
     if (prevFilmCard === null || prevPopup === null) {

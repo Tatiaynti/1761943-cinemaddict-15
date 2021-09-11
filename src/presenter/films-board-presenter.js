@@ -7,6 +7,7 @@ import {remove, renderElement, RenderPosition} from '../utils/utils-for-render.j
 import FilmCardPresenter from './film-presenter.js';
 import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 import {filter, sortByDate, sortByRaing} from '../utils/utils-common.js';
+import LoadingView from '../view/loading.js';
 
 const FILM_CARDS_PER_STEP = 5;
 
@@ -19,6 +20,7 @@ export default class FilmsPresenter {
     this._renderedFilmCount = FILM_CARDS_PER_STEP;
     this._filmsPresenter = new Map();
     this._currentSortType = SortType.DEFAULT;
+    this._isLoading = true;
 
     this._sortComponent = null;
     this._showMoreButtonComponent = null;
@@ -26,6 +28,7 @@ export default class FilmsPresenter {
 
     this._filmsContainerComponent = new FilmsContainerView();
     this._filmsListComponent = new FilmsListView();
+    this._loadingComponent = new LoadingView();
 
     this._handleShowMoreClick = this._handleShowMoreClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -102,7 +105,16 @@ export default class FilmsPresenter {
         this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
         this._renderFilmsBoard();
         break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderFilmsBoard();
+        break;
     }
+  }
+
+  _renderLoading() {
+    renderElement(this._filmsContainerComponent, this._loadingComponent, RenderPosition.AFTEREND);
   }
 
   _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
@@ -113,6 +125,7 @@ export default class FilmsPresenter {
 
     remove(this._sortComponent);
     remove(this._filmsListComponent);
+    remove(this._loadingComponent);
     remove(this._showMoreButtonComponent);
 
     if (this._noFilmsComponent) {
@@ -137,7 +150,7 @@ export default class FilmsPresenter {
   _renderNoFilms() {
     this._noFilmsComponent = new EmptyListView(this._filterType);
 
-    renderElement(this._container, this._noFilmsComponent, RenderPosition.BEFOREEND);
+    renderElement(this._filmsListComponent, this._noFilmsComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilms(films) {
@@ -186,6 +199,11 @@ export default class FilmsPresenter {
   }
 
   _renderFilmsBoard() {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     const films = this._getFilms();
     const filmsCount = films.length;
 

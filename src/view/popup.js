@@ -2,7 +2,7 @@ import AbstractView from './abstract.js';
 import {changeDateFormatToFull} from '../utils/utils-common.js';
 
 const filmDetailsTemplate = (popup) => {
-  const {poster, title, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched} = popup;
+  const {poster, title, altTitle, rating, director, writers, actors, release, runtime, country, genres, description, ageRating, isFavorite, isInWatchlist, isWatched} = popup;
   return `
   <section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -12,14 +12,14 @@ const filmDetailsTemplate = (popup) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+          <img class="film-details__poster-img" src="${poster}" alt="">
           <p class="film-details__age">${ageRating}</p>
         </div>
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${title}</h3>
-              <p class="film-details__title-original">Original: ${title}</p>
+              <p class="film-details__title-original">Original: ${altTitle}</p>
             </div>
             <div class="film-details__rating">
               <p class="film-details__total-rating">${rating}</p>
@@ -40,7 +40,7 @@ const filmDetailsTemplate = (popup) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${changeDateFormatToFull(release)}</td>
+              <td class="film-details__cell">${release}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
