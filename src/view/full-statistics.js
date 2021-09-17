@@ -6,7 +6,7 @@ import {
   getTopGenre,
   getGenres,
   getGenresCount
-} from '../utils/stats.js';
+} from '../utils/utils-for-stats.js';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
