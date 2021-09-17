@@ -3,32 +3,28 @@ import AbstractView from './abstract.js';
 const filtersTabsTemplate = (filters, currentFilterType) =>  {
   const {type, name, count} = filters;
 
-  if (name !== 'All movies') {
-    return (
-      `<a href="#${name}" class="main-navigation__item ${type === currentFilterType ?
-        'main-navigation__item--active' :
-        ''}" data-sort-type="${type}">${name} <span class="main-navigation__item-count">${count}</span></a>`
-    );
-  } else {
-    return (`<a href="#${name}" class="main-navigation__item ${type === currentFilterType ?
-      'main-navigation__item--active' :
-      ''}" data-sort-type="${type}">${name} </a>`
-    );
+  if (type === 'all') {
+    return `<a href="#${name.toLowerCase()}"
+    class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}"
+    data-name-filter = "${name.toLowerCase()}">
+    ${name}</a>`;
   }
+  return `<a href="#${name.toLowerCase()}"
+    class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}"
+    data-name-filter = "${name.toLowerCase()}">
+    ${name}<span class="main-navigation__item-count">${count}</span></a>`;
 };
 
-const filtersTemplate = (filters, currentFilterType) => {
+const createMainNavigationTemplate = (filters, currentFilterType) => {
   const filtersItemsMap = filters.map((filter) => filtersTabsTemplate(filter, currentFilterType)).join('');
-  return (
-    `<nav class="main-navigation">
-      <div class="main-navigation__items">
-        ${filtersItemsMap}
-        </div>
-      <a href="#stats" class="main-navigation__additional ${currentFilterType === 'stats' ?
-      'main-navigation__additional--active' :
-      ''}">Stats</a>
-    </nav>`
-  );
+
+  return `<nav class="main-navigation">
+  <div class="main-navigation__items">
+    ${filtersItemsMap}
+  </div>
+  <a href="#stats" class="main-navigation__additional
+  ${'stats' === currentFilterType ? 'main-navigation__item--active' : ''}" data-name-filter = "stats">Stats</a>
+</nav>`;
 };
 
 export default class Filters extends AbstractView {
@@ -38,19 +34,33 @@ export default class Filters extends AbstractView {
     this._currentFilter = currentFilterType;
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
+    this._statsClickHandler = this._statsClickHandler.bind(this);
   }
 
   getTemplate() {
-    return filtersTemplate(this._filters, this._currentFilter);
+    return createMainNavigationTemplate(this._filters, this._currentFilter);
   }
 
   _filterTypeChangeHandler(evt) {
+    if (evt.target.tagName !== 'A') {
+      return;
+    }
     evt.preventDefault();
-    this._callback.filterTypeChange(evt.target.dataset.sortType);
+    this._callback.filterTypeChange(evt.target.dataset.nameFilter);
+  }
+
+  _statsClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.statsClick();
   }
 
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
-    this.getElement().querySelectorAll('.main-navigation__item').forEach((navItem) => navItem.addEventListener('click', this._filterTypeChangeHandler));
+    this.getElement().addEventListener('click', this._filterTypeChangeHandler);
+  }
+
+  setStatsClickHandler(callback) {
+    this._callback.statsClick = callback;
+    this.getElement().querySelector('.main-navigation__additional').addEventListener('click', this._statsClickHandler);
   }
 }
