@@ -8,7 +8,7 @@ const NoFilmsTextType = {
   [FilterType.FAVORITES]: 'There are no favorite movies',
 };
 
-const createEmptyList = (filterType) => {
+const createEmptyListTemplate = (filterType) => {
   const noFilmTextValue = NoFilmsTextType[filterType];
   return (
     `<section class="films-list">
@@ -24,6 +24,6 @@ export default class EmptyList extends AbstractView {
   }
 
   getTemplate() {
-    return createEmptyList(this._data);
+    return createEmptyListTemplate(this._data);
   }
 }

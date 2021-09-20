@@ -1,9 +1,9 @@
 import AbstractView from './abstract.js';
 
-const filtersTabsTemplate = (filters, currentFilterType) =>  {
+const createFiltersTabsTemplate = (filters, currentFilterType) =>  {
   const {type, name, count} = filters;
 
-  if (type === 'all') {
+  if (type === 'all movies') {
     return `<a href="#${name.toLowerCase()}"
     class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}"
     data-name-filter = "${name.toLowerCase()}">
@@ -16,7 +16,7 @@ const filtersTabsTemplate = (filters, currentFilterType) =>  {
 };
 
 const createMainNavigationTemplate = (filters, currentFilterType) => {
-  const filtersItemsMap = filters.map((filter) => filtersTabsTemplate(filter, currentFilterType)).join('');
+  const filtersItemsMap = filters.map((filter) => createFiltersTabsTemplate(filter, currentFilterType)).join('');
 
   return `<nav class="main-navigation">
   <div class="main-navigation__items">

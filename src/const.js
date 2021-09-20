@@ -13,6 +13,7 @@ export const UserAction = {
   UPDATE_FILM: 'UPDATE_FILM',
   ADD_COMMENT: 'ADD_COMMENT',
   DELETE_COMMENT: 'DELETE_COMMENT',
+  UPDATE_FILM_POPUP: 'UPDATE_FILM_POPUP',
 };
 
 export const UpdateType = {
@@ -23,7 +24,7 @@ export const UpdateType = {
 };
 
 export const FilterType = {
-  ALL: 'all',
+  ALL: 'all movies',
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITES: 'favorites',

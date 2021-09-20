@@ -1,7 +1,7 @@
 import AbstractView from './abstract.js';
 import {formatReleaseDate, generateRuntime, sliceDescription} from '../utils/utils-common.js';
 
-const filmCardTemplate = (film) => {
+const createFilmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
   return `
   <article class="film-card">
@@ -36,7 +36,7 @@ export default class FilmCard extends AbstractView {
   }
 
   getTemplate() {
-    return filmCardTemplate(this._film);
+    return createFilmCardTemplate(this._film);
   }
 
   _openClickHandler(evt) {

@@ -1,15 +1,8 @@
 import AbstractView from './abstract.js';
 import { StatsFilterType } from '../const.js';
-import {
-  DurationFormat,
-  getTotalDuration,
-  getTopGenre,
-  getGenres,
-  getGenresCount
-} from '../utils/utils-for-stats.js';
+import {DurationFormat, getTotalDuration, getTopGenre, getGenres, getGenresCount} from '../utils/utils-for-stats.js';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
 
 const BAR_HEIGHT = 50;
 
