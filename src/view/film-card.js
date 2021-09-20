@@ -1,18 +1,18 @@
 import AbstractView from './abstract.js';
-import {changeDateFormatToYear, sliceDescription} from '../utils/utils-common.js';
+import {formatReleaseDate, generateRuntime, sliceDescription} from '../utils/utils-common.js';
 
-const filmCardTemplate = (film) => {
+const createFilmCardTemplate = (film) => {
   const {title, rating, release, runtime, genres, description, poster, comments, isFavorite, isInWatchlist, isWatched} = film;
   return `
   <article class="film-card">
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${changeDateFormatToYear(release)}</span>
-      <span class="film-card__duration">${runtime.runtimeHours}h ${runtime.runtimeMins}m</span>
+      <span class="film-card__year">${formatReleaseDate(release, 'YYYY')}</span>
+      <span class="film-card__duration">${generateRuntime(runtime)}</span>
       <span class="film-card__genre">${genres[0]}</span>
     </p>
-    <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+    <img src="${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${sliceDescription(description)}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
@@ -36,7 +36,7 @@ export default class FilmCard extends AbstractView {
   }
 
   getTemplate() {
-    return filmCardTemplate(this._film);
+    return createFilmCardTemplate(this._film);
   }
 
   _openClickHandler(evt) {

@@ -1,14 +1,18 @@
 import {FilterType, UpdateType} from '../const.js';
 import {remove, renderElement, RenderPosition, replace} from '../utils/utils-for-render.js';
+import ProfileView from '../view/profile.js';
 import FiltersView from '../view/filters.js';
 import {filter} from '../utils/utils-common.js';
 
-export default class Filter {
-  constructor(filterContainer, filterModel, filmsModel) {
+export default class Filters {
+  constructor(headerProfileContainer, filterContainer, filterModel, filmsModel) {
     this._filterContainer = filterContainer;
+    this._headerProfileContainer = headerProfileContainer;
     this._filterModel = filterModel;
     this._filmsModel = filmsModel;
-    this._filterComponent = null;
+
+    this._mainNavigationComponent = null;
+    this._headerProfileComponent = null;
 
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
@@ -19,21 +23,29 @@ export default class Filter {
 
   init() {
     const filters = this._getFilters();
-    const prevFilterComponent = this._filterComponent;
+    const prevMainNavigationComponent = this._mainNavigationComponent;
+    const prevHeaderProfileComponent = this._headerProfileComponent;
 
-    this._filterComponent = new FiltersView(filters, this._filterModel.getFilter());
-    this._filterComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
+    this._mainNavigationComponent = new FiltersView(filters, this._filterModel.getFilter());
+    this._headerProfileComponent = new ProfileView(this._getWatchedFilmsCount());
+    this._mainNavigationComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
-    if (prevFilterComponent === null) {
-      renderElement(this._filterContainer, this._filterComponent, RenderPosition.BEFOREEND);
+    if (prevMainNavigationComponent === null && prevHeaderProfileComponent === null) {
+      renderElement( this._headerProfileContainer, this._headerProfileComponent, RenderPosition.BEFOREEND);
+      renderElement(this._filterContainer, this._mainNavigationComponent, RenderPosition.BEFOREEND);
       return;
     }
 
-    replace(this._filterComponent, prevFilterComponent);
-    remove(prevFilterComponent);
+    replace(this._mainNavigationComponent, prevMainNavigationComponent);
+    replace(this._headerProfileComponent, prevHeaderProfileComponent);
+    remove(prevMainNavigationComponent);
+    remove(prevHeaderProfileComponent);
   }
 
-  _handleModelEvent() {
+  _handleModelEvent(updateType) {
+    if (updateType === UpdateType.INIT) {
+      this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    }
     this.init();
   }
 
@@ -68,5 +80,9 @@ export default class Filter {
         count: filter[FilterType.FAVORITES](films).length,
       },
     ];
+  }
+
+  _getWatchedFilmsCount() {
+    return this._getFilters().find((filterItem) => filterItem.name === 'History').count;
   }
 }
