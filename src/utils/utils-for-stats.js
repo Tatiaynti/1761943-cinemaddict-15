@@ -21,7 +21,7 @@ export const getGenres = (movies) => {
   return genres;
 };
 
-export const сountGenres = (movies) => {
+export const countGenres = (movies) => {
   const allGenres = [];
   movies.forEach((movie) => allGenres.push(...movie.genres));
   const genres = [];
@@ -31,12 +31,12 @@ export const сountGenres = (movies) => {
 
 export const getGenresCount = (movies) => {
   const counts = [];
-  сountGenres(movies).forEach((genre) => counts.push(genre.count));
+  countGenres(movies).forEach((genre) => counts.push(genre.count));
   return counts;
 };
 
 export const getTopGenre = (movies) => {
-  const topGenre = сountGenres(movies);
+  const topGenre = countGenres(movies);
   topGenre.sort((prev, next) => next.count - prev.count);
   return topGenre[0].genre;
 };

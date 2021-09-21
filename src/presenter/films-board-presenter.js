@@ -33,7 +33,6 @@ export default class FilmsPresenter {
 
     this._sortComponent = null;
     this._showMoreButtonComponent = null;
-    this._noFilmsComponent = null;
 
     this._currentScreen = Screens.MOVIES;
     this._currentStatsFilter = StatsFilterType.ALL;
